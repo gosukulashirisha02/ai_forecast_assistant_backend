@@ -20,6 +20,7 @@ llm=ChatGroq(
     model="llama-3.3-70b-versatile",
    api_key=os.getenv("GROQ_API_KEY")
 )
+print("GROQ KEY:", os.getenv("GROQ_API_KEY"))
 
 @tool
 def get_temp_details(city:str):
@@ -34,6 +35,10 @@ agent=create_agent(
     model=llm,
     tools=[get_temp_details]
 )
+
+@app.get("/")
+def home():
+    return {"message": "Weather API is running"}
 @app.post("/get_weather")
 def incomig_weather_params(
     city:str=Query(...),
