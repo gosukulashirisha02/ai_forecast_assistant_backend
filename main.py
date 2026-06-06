@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Query
 
 from langchain.agents import create_agent
 from langchain_groq import ChatGroq
@@ -31,7 +31,7 @@ def get_temp_details(city:str):
     return data
 
 agent=create_agent(
-    model="llm",
+    model=llm,
     tools=[get_temp_details]
 )
 @app.post("/get_weather")
@@ -41,6 +41,6 @@ def incomig_weather_params(
 ):
     
     result=agent.invoke({
-        "message":[{"role":"user","content":f"city:{city} question:{question}"}]
+        "messages":[{"role":"user","content":f"city:{city} question:{question}"}]
     })
     return result
